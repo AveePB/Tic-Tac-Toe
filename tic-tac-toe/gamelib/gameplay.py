@@ -47,7 +47,7 @@ class Game:
         max_eval = (-1) * INF 
         best_pos = 0
         for i in range(9):
-            if(self.state[i] != ' '):
+            if(self.isMovePossible(i) == False):
                 continue
             new_game = Game(self.state)
             new_game.changeState(i, ai)
@@ -71,7 +71,7 @@ class Game:
         if(is_maximizing):
             max_eval = (-1) * INF    
             for i in range(9):
-                if(self.state[i] != ' '):
+                if(self.isMovePossible(i) == False):
                     continue
                 new_game = Game(self.state)
                 new_game.changeState(i, ai)
@@ -82,7 +82,7 @@ class Game:
         else:
             min_eval = INF
             for i in range(9):
-                if(self.state[i] != ' '):
+                if(self.isMovePossible(i) == False):
                     continue
                 new_game = Game(self.state)
                 new_game.changeState(i, enemy)
@@ -90,3 +90,4 @@ class Game:
                 curr_eval = new_game.__minmax(True, ai, enemy)
                 min_eval = min(min_eval, curr_eval)
             return min_eval
+ 
