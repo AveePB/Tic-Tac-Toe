@@ -1,12 +1,16 @@
-from gamelib.gameplay import Game, TIE, P1, P2
+from app.TicTacToe import TicTacToe
+
 import tkinter.messagebox as messagebox
 import tkinter as tk
-import random
 
+
+PLAYER_HUMAN = 'O'
+PLAYER_AI = 'X'
 
 root = tk.Tk() #initializes the main window
 btn = [tk.Button() for _ in range(9)]
-tic_tac_toe = Game()
+gameBoard = [" "] * 9
+
 
 def init():
     #sets the right init parameters to the buttons
@@ -33,46 +37,49 @@ def init():
 
     #sets the esthetic parameters of the main window
     root.resizable(width=False, height=False)
-    root.iconbitmap("./res/icon.ico")
+    root.iconbitmap("./assets/img/icon.ico")
     root.title("Tic-Tac-Toe")
     
-    #AI starts the game
-    start_pos = random.randint(0, 8)
-    tic_tac_toe.changeState(start_pos, P1)
-    btn[start_pos]["text"] = P1
-
-
 def buttonClick(pos: int):
+    
     #Player's turn
     if(btn[pos]["text"] == " "):
-        tic_tac_toe.changeState(pos, P2)
-        btn[pos]["text"] = P2
+        gameBoard[pos] = PLAYER_HUMAN
+        btn[pos]["text"] = PLAYER_HUMAN
 
-        if(tic_tac_toe.getResult() == P1):
-            messagebox.showinfo("Tic-Tac-Toe", "YOU LOST!!!")
-            root.quit()
-        if(tic_tac_toe.getResult() == P2):
+        if(TicTacToe.isWin(PLAYER_HUMAN, gameBoard)):
             messagebox.showinfo("Tic-Tac-Toe", "Congratulations, you WON!!!")
             root.quit()
-        if(tic_tac_toe.getResult() == TIE):
+            return
+        
+        if(TicTacToe.isWin(PLAYER_AI, gameBoard)):
+            messagebox.showinfo("Tic-Tac-Toe", "YOU LOST!!!")
+            root.quit()
+            return
+
+        if(TicTacToe.isTie(PLAYER_HUMAN, PLAYER_AI, gameBoard)):
             messagebox.showinfo("Tic-Tac-Toe", "TIE!!!")
             root.quit()
+            return
     else:
         messagebox.showerror("Tic-Tac-Toe", "Hi! This field has already been selected.\n Please pick another one")
         return
 
     #AI's turn
-    best_pos = tic_tac_toe.getBestPos(P1, P2)
-    tic_tac_toe.changeState(best_pos, P1)
-    btn[best_pos]["text"] = P1
+    bestPos = TicTacToe.getBestMove(PLAYER_AI, gameBoard)
+    
+    gameBoard[bestPos] = PLAYER_AI
+    btn[bestPos]["text"] = PLAYER_AI
 
-    if(tic_tac_toe.getResult() == P1):
-        messagebox.showinfo("Tic-Tac-Toe", "YOU LOST!!!")
-        root.quit()
-    if(tic_tac_toe.getResult() == P2):
+    if(TicTacToe.isWin(PLAYER_HUMAN, gameBoard)):
         messagebox.showinfo("Tic-Tac-Toe", "Congratulations, you WON!!!")
         root.quit()
-    if(tic_tac_toe.getResult() == TIE):
+        
+    if(TicTacToe.isWin(PLAYER_AI, gameBoard)):
+        messagebox.showinfo("Tic-Tac-Toe", "YOU LOST!!!")
+        root.quit()
+
+    if(TicTacToe.isTie(PLAYER_HUMAN, PLAYER_AI, gameBoard)):
         messagebox.showinfo("Tic-Tac-Toe", "TIE!!!")
         root.quit()
 
