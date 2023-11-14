@@ -2,7 +2,10 @@
 This is a simple implementation of the classic Tic Tac Toe game in Python.
 
 ## How to Play:
-- To play the game, simply run main.py file in your Python environment.
+- To play the game, simply run main.py file in your Python environment. Use the following command:
+```
+  python main.py
+```
 - The game is played on a 3x3 board. Player 1 is represented by X and player 2 is represented by O. 
 - Players take turns placing their symbol on the board until one player gets three in a row, either 
 horizontally, vertically, or diagonally. If the board fills up before either player gets three in a row,
