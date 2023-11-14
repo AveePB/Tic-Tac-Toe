@@ -8,6 +8,9 @@ class TicTacToe:
     PLAYER_AI = 2
 
     def __minmax(player: int, board: list) -> int:
+        """
+        Returns the minmax score.
+        """
         if (TicTacToe.isWin(TicTacToe.PLAYER_HUMAN, board)):
             return -(board.count(TicTacToe.UNPLACED) + 1)
 
@@ -28,6 +31,7 @@ class TicTacToe:
                 board[i] = TicTacToe.PLAYER_HUMAN
                 minScore = min(minScore, TicTacToe.__minmax(TicTacToe.PLAYER_AI, board))
                 board[i] = TicTacToe.UNPLACED
+                
             return minScore
         
         #Maximizing (AI)
@@ -41,10 +45,14 @@ class TicTacToe:
                 board[i] = TicTacToe.PLAYER_AI
                 maxScore = max(maxScore, TicTacToe.__minmax(TicTacToe.PLAYER_HUMAN, board))
                 board[i] = TicTacToe.UNPLACED
+
             return maxScore
 
 
     def isWin(player: str, board: list) -> bool:
+        """
+        Checks if the current game state is a win.
+        """
         if(board[0] == player):
             if(board[0] == board[1] and board[1] == board[2]): return True
             if(board[0] == board[3] and board[3] == board[6]): return True
@@ -56,16 +64,24 @@ class TicTacToe:
             if(board[1] == board[4] and board[4] == board[7]): return True
             if(board[0] == board[4] and board[4] == board[8]): return True
             if(board[2] == board[4] and board[4] == board[6]): return True
+
         return False
     
 
     def isTie(player1: str, player2: str, board: list) -> bool:
+        """
+        Checks if the current game state is a tie.
+        """
         if (TicTacToe.isWin(player1, board) or TicTacToe.isWin(player2, board)):
             return False
+        
         return (board.count(player1) + board.count(player2) == 9)
 
 
     def getBestMove(AISign: str, board: list):
+        """
+        Returns the best position for the AI player.
+        """
         convertedBoard = []
 
         for sign in board:
